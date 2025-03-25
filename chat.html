@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Light Theme */
+        body.light-theme {
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .toolkit {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .light-theme .icon-btn:hover {
+            background: rgba(0,0,0,0.1);
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+            text-align: center;
+        }
+
+        .search-container {
+            width: 100%;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 30px;
+            font-size: 1.1rem;
+            border: 1px solid #3d3d3d;
+            border-radius: 30px;
+            background-color: #2d2d2d;
+            color: white;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .light-theme .search-input {
+            background-color: #f5f5f5;
+            border-color: #e0e0e0;
+            color: #1a1a1a;
+        }
+
+        .search-tools {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .tool-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid #3d3d3d;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .light-theme .tool-btn {
+            background-color: #f0f0f0;
+            border-color: #e0e0e0;
+            color: #1a1a1a;
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Theme Toggle Styles */
+        .theme-toggle {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .search-input {
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Toolkit -->
+    <div class="header">
+        <div class="toolkit">
+            <button class="icon-btn">
+                <span class="material-icons">apps</span>
+            </button>
+            <button class="icon-btn">
+                <span class="material-icons">account_circle</span>
+            </button>
+            <button class="icon-btn theme-toggle" onclick="toggleTheme()">
+                <span class="material-icons">dark_mode</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>What do you want to explore?</h1>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Ask a question...">
+            <div class="search-tools">
+                <button class="tool-btn">
+                    <span class="material-icons">public</span>
+                    Web
+                </button>
+                <button class="tool-btn">
+                    <span class="material-icons">image</span>
+                    Images
+                </button>
+                <button class="tool-btn">
+                    <span class="material-icons">article</span>
+                    Docs
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div>Search across the entire Internet</div>
+        <div id="time-date"></div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            const themeIcon = document.querySelector('.theme-toggle .material-icons');
+            themeIcon.textContent = document.body.classList.contains('light-theme') ? 
+                'light_mode' : 'dark_mode';
+        }
+
+        // Time and Date
+        function updateTime() {
+            const options = { 
+                hour: 'numeric', 
+                minute: '2-digit', 
+                hour12: true,
+                month: 'short', 
+                day: 'numeric', 
+                weekday: 'short' 
+            };
+            
+            const dateTime = new Date().toLocaleString('en-US', options).split(', ');
+            const time = dateTime[1].replace(/:\d+ /, ' ');
+            const date = dateTime[0] + ', ' + dateTime[2];
+            
+            document.getElementById('time-date').innerHTML = 
+                `${time}<br>${date}`;
+        }
+
+        // Initial setup
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Search Functionality
+        document.querySelector('.search-input').addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') {
+                const query = e.target.value;
+                if(query.trim()) {
+                    // Implement search logic here
+                    console.log('Searching for:', query);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
